@@ -5,6 +5,7 @@ const codepipeline = new AWS.CodePipeline();
 
 const process = require('process');
 const S3_BUCKET = process.env.S3_BUCKET;
+const BUILD_ARTIFACT = process.env.BUILD_ARTIFACT
 const PUBLIC_READ_ACL = "public-read";
 
 exports.handler = async (event, context) => {
@@ -36,7 +37,7 @@ exports.handler = async (event, context) => {
 }
 
 async function listObjectsFromBuildArtifact(jobData) {
-  let buildArtifact = jobData.inputArtifacts.filter(i => i.name === "BuildArtifact")[0];
+  let buildArtifact = jobData.inputArtifacts.filter(i => i.name === BUILD_ARTIFACT)[0];
   let artifactS3Client = new AWS.S3({
     accessKeyId: jobData.artifactCredentials.accessKeyId,
     secretAccessKey: jobData.artifactCredentials.secretAccessKey,
